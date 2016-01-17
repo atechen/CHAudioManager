@@ -4,12 +4,12 @@
 //
 //  Created by Alvaro Franco on 20/01/15.
 //  Modify by 陈 斐 on 16/1/13.
-//  Copyright © 2016年 atechen. All rights reserved.
 //
 
 #import "CHAudioItem.h"
 
 @interface CHAudioItem ()
+@property (nonatomic, strong, readonly) NSURL *URL;
 @end
 
 @implementation CHAudioItem
@@ -52,7 +52,6 @@
 
 - (id) initWithStreamUrlStr:(NSString *)urlStr
 {
-    
     if (self == [super init]) {
         _audioItemType = CHAudioItemTypeStreaming;
         _URL = [NSURL URLWithString:urlStr];
@@ -61,39 +60,35 @@
     
     return self;
 }
-
--(void)fetchMetadata
+/*
+- (void) fetchMetadata
 {
-    // chenEdit 添加
+    //1.
     _duration = CMTimeGetSeconds(_playerItem.asset.duration);
-    // chenEdit end
-    
-    // chenEdit 注释
+    //2.
     NSArray *metadata = [_playerItem.asset commonMetadata];
-
     for (AVMetadataItem *metadataItem in metadata) {
 
         [metadataItem loadValuesAsynchronouslyForKeys:@[AVMetadataKeySpaceCommon] completionHandler:^{
-//            if ([metadataItem.commonKey isEqualToString:@"title"]) {
-//                _title = (NSString *)metadataItem.value;
-//            }
-//            else if ([metadataItem.commonKey isEqualToString:@"albumName"]) {
-//                _album = (NSString *)metadataItem.value;
-//            }
-//            else if ([metadataItem.commonKey isEqualToString:@"artist"]) {
-//                _artist = (NSString *)metadataItem.value;
-//            }
-//            else if ([metadataItem.commonKey isEqualToString:@"artwork"]) {
-//                if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceID3]) {
-//                    _artwork = [UIImage imageWithData:[[metadataItem.value copyWithZone:nil] objectForKey:@"data"]];
-//                }
-//                else if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceiTunes]) {
-//                    _artwork = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
-//                }
-//            }
+            if ([metadataItem.commonKey isEqualToString:@"title"]) {
+                _title = (NSString *)metadataItem.value;
+            }
+            else if ([metadataItem.commonKey isEqualToString:@"albumName"]) {
+                _album = (NSString *)metadataItem.value;
+            }
+            else if ([metadataItem.commonKey isEqualToString:@"artist"]) {
+                _artist = (NSString *)metadataItem.value;
+            }
+            else if ([metadataItem.commonKey isEqualToString:@"artwork"]) {
+                if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceID3]) {
+                    _artwork = [UIImage imageWithData:[[metadataItem.value copyWithZone:nil] objectForKey:@"data"]];
+                }
+                else if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceiTunes]) {
+                    _artwork = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
+                }
+            }
         }];
     }
-    // chenEdit end
 }
 
 -(void)setInfoFromItem:(AVPlayerItem *)item
@@ -101,4 +96,6 @@
     _duration = CMTimeGetSeconds(item.duration);
     _timePlayed = CMTimeGetSeconds(item.currentTime);
 }
+*/
+#warning 直接获取时长和当前时间是否可用
 @end

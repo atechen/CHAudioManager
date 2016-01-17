@@ -4,7 +4,6 @@
 //
 //  Created by Alvaro Franco on 21/01/15.
 //  Modify by 陈 斐 on 16/1/12.
-//  Copyright © 2016年 atechen. All rights reserved.
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -23,10 +22,13 @@ typedef enum {
 typedef void (^feedbackBlock)(CHAudioItem *item);
 typedef void (^finishedBlock)(void);
 
+extern NSString *const CHAudioPlayerStatus;
+extern NSString *const CHAudioPlayerItemDuration;
+extern NSString *const CHAudioPlayerItemTimeElapsed;
+
 @interface CHAudioPlayer : NSObject
 
 // 设置播放源方法
-- (void) setAudioInfo:(id)audioInfo audioUrlKey:(NSString *)audioUrlKey;
 - (void) setAudioItem:(CHAudioItem *)audioItem;
 
 @property (nonatomic, assign, readonly) CHAudioPlayStatus status;

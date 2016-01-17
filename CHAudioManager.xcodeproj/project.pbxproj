@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04E3B50B1C4B48E700286D31 /* CHAudioQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3B50A1C4B48E700286D31 /* CHAudioQueue.m */; };
+		04E3B50E1C4B491100286D31 /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3B50D1C4B491100286D31 /* CHAudioPlayer.m */; };
 		E27488291C47354500C92DB8 /* NSTimer+CHAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E27488281C47354500C92DB8 /* NSTimer+CHAudioManager.m */; };
 		E2A6E10D1C4624B800FD6B93 /* CHAudioItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A6E10C1C4624B800FD6B93 /* CHAudioItem.m */; };
 		E2EA55B41C45E96900BC1596 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55B31C45E96900BC1596 /* main.m */; };
@@ -20,11 +22,14 @@
 		E2EA55DC1C45E98200BC1596 /* AFSoundPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55CF1C45E98200BC1596 /* AFSoundPlayback.m */; };
 		E2EA55DD1C45E98200BC1596 /* AFSoundQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55D11C45E98200BC1596 /* AFSoundQueue.m */; };
 		E2EA55DE1C45E98200BC1596 /* AFSoundRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55D31C45E98200BC1596 /* AFSoundRecord.m */; };
-		E2EA55E01C45E98200BC1596 /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55D71C45E98200BC1596 /* CHAudioPlayer.m */; };
 		E2EA55E11C45E98200BC1596 /* NSTimer+AFSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55D91C45E98200BC1596 /* NSTimer+AFSoundManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04E3B5091C4B48E700286D31 /* CHAudioQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHAudioQueue.h; sourceTree = "<group>"; };
+		04E3B50A1C4B48E700286D31 /* CHAudioQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHAudioQueue.m; sourceTree = "<group>"; };
+		04E3B50C1C4B491100286D31 /* CHAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHAudioPlayer.h; sourceTree = "<group>"; };
+		04E3B50D1C4B491100286D31 /* CHAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHAudioPlayer.m; sourceTree = "<group>"; };
 		E27488271C47354500C92DB8 /* NSTimer+CHAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+CHAudioManager.h"; sourceTree = "<group>"; };
 		E27488281C47354500C92DB8 /* NSTimer+CHAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+CHAudioManager.m"; sourceTree = "<group>"; };
 		E2A6E10B1C4624B800FD6B93 /* CHAudioItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHAudioItem.h; sourceTree = "<group>"; };
@@ -49,8 +54,6 @@
 		E2EA55D11C45E98200BC1596 /* AFSoundQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSoundQueue.m; sourceTree = "<group>"; };
 		E2EA55D21C45E98200BC1596 /* AFSoundRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSoundRecord.h; sourceTree = "<group>"; };
 		E2EA55D31C45E98200BC1596 /* AFSoundRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSoundRecord.m; sourceTree = "<group>"; };
-		E2EA55D61C45E98200BC1596 /* CHAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHAudioPlayer.h; path = ../Classes/CHAudioPlayer.h; sourceTree = "<group>"; };
-		E2EA55D71C45E98200BC1596 /* CHAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CHAudioPlayer.m; path = ../Classes/CHAudioPlayer.m; sourceTree = "<group>"; };
 		E2EA55D81C45E98200BC1596 /* NSTimer+AFSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+AFSoundManager.h"; sourceTree = "<group>"; };
 		E2EA55D91C45E98200BC1596 /* NSTimer+AFSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+AFSoundManager.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,8 +133,10 @@
 		E2EA55E21C45EA7100BC1596 /* CHAudioManager */ = {
 			isa = PBXGroup;
 			children = (
-				E2EA55D61C45E98200BC1596 /* CHAudioPlayer.h */,
-				E2EA55D71C45E98200BC1596 /* CHAudioPlayer.m */,
+				04E3B5091C4B48E700286D31 /* CHAudioQueue.h */,
+				04E3B50A1C4B48E700286D31 /* CHAudioQueue.m */,
+				04E3B50C1C4B491100286D31 /* CHAudioPlayer.h */,
+				04E3B50D1C4B491100286D31 /* CHAudioPlayer.m */,
 				E2A6E10B1C4624B800FD6B93 /* CHAudioItem.h */,
 				E2A6E10C1C4624B800FD6B93 /* CHAudioItem.m */,
 				E27488271C47354500C92DB8 /* NSTimer+CHAudioManager.h */,
@@ -212,12 +217,13 @@
 			files = (
 				E2EA55E11C45E98200BC1596 /* NSTimer+AFSoundManager.m in Sources */,
 				E2EA55DB1C45E98200BC1596 /* AFSoundItem.m in Sources */,
+				04E3B50B1C4B48E700286D31 /* CHAudioQueue.m in Sources */,
 				E2EA55DE1C45E98200BC1596 /* AFSoundRecord.m in Sources */,
+				04E3B50E1C4B491100286D31 /* CHAudioPlayer.m in Sources */,
 				E2EA55BA1C45E96900BC1596 /* ViewController.m in Sources */,
 				E27488291C47354500C92DB8 /* NSTimer+CHAudioManager.m in Sources */,
 				E2A6E10D1C4624B800FD6B93 /* CHAudioItem.m in Sources */,
 				E2EA55B71C45E96900BC1596 /* AppDelegate.m in Sources */,
-				E2EA55E01C45E98200BC1596 /* CHAudioPlayer.m in Sources */,
 				E2EA55DC1C45E98200BC1596 /* AFSoundPlayback.m in Sources */,
 				E2EA55DD1C45E98200BC1596 /* AFSoundQueue.m in Sources */,
 				E2EA55B41C45E96900BC1596 /* main.m in Sources */,

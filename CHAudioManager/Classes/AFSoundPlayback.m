@@ -137,7 +137,6 @@ NSString * const AFSoundPlaybackFinishedNotification = @"kAFSoundPlaybackFinishe
 }
 
 -(NSDictionary *)statusDictionary {
-    // 删除Duration和Elapsed的强制int类型转化
     return @{AFSoundStatusDuration: @(CMTimeGetSeconds(_player.currentItem.asset.duration)),
              AFSoundStatusTimeElapsed: @(CMTimeGetSeconds(_player.currentItem.currentTime)),
              AFSoundPlaybackStatus: @(_status)};

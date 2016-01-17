@@ -4,7 +4,6 @@
 //
 //  Created by Alvaro Franco on 21/01/15.
 //  Modify by 陈 斐 on 16/1/12.
-//  Copyright © 2016年 atechen. All rights reserved.
 //
 
 #import "CHAudioPlayer.h"
@@ -19,31 +18,25 @@
 @end
 
 @implementation CHAudioPlayer
+NSString * const CHAudioPlayerStatus = @"status";
+NSString * const CHAudioPlayerItemDuration = @"duration";
+NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 
 - (instancetype)init
 {
     if (self = [super init]) {
         _status = CHAudioPlayNone;
+#warning 使用nil创建AVPlayer是否可以
         _audioPlayer = [[AVPlayer alloc] initWithPlayerItem:nil];
     }
     return self;
 }
 
 #pragma mark - Public 设置播放源方法
-- (void) setAudioInfo:(id)audioInfo audioUrlKey:(NSString *)audioUrlKey
-{
-    NSString *urlStr = nil;
-    if ([audioInfo isKindOfClass:[NSString class]]) {
-        urlStr = audioInfo;
-    }
-    urlStr = [audioInfo valueForKey:audioUrlKey];
-    _currentAudioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
-    [_audioPlayer replaceCurrentItemWithPlayerItem:_currentAudioItem.playerItem];
-}
-
 - (void) setAudioItem:(CHAudioItem *)audioItem
 {
     _currentAudioItem = audioItem;
+#warning 不确定是否耗时
     [_audioPlayer replaceCurrentItemWithPlayerItem:_currentAudioItem.playerItem];
 }
 
@@ -51,11 +44,11 @@
 #pragma mark play
 - (void) play
 {
+    _status = CHAudioPlayStart;
     [_audioPlayer play];
     [_feedbackTimer resumeTimer];
+    [self fetchPlayerItemInfo];
 //    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
-    
-    _status = CHAudioPlayStart;
 }
 
 - (void) playAtSecond:(NSInteger)second
@@ -66,17 +59,19 @@
 #pragma mark pause
 - (void) pause
 {
+    _status = CHAudioPlayPause;
     [_audioPlayer pause];
     [_feedbackTimer pauseTimer];
 //    [[MPRemoteCommandCenter sharedCommandCenter] pauseCommand];
-    
-    _status = CHAudioPlayPause;
 }
 
 #pragma mark resume
 - (void) resume
 {
+    _status = CHAudioPlayResume;
     [_audioPlayer seekToTime:CMTimeMake(0, 1)];
+    // 不知都该用什么？
+//    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
 }
 
 #pragma mark - 回调
@@ -89,13 +84,14 @@
     }
     
     _feedbackTimer = [NSTimer scheduledTimerWithTimeInterval:updateRate block:^{
-        
+        //1.
         _currentAudioItem.timePlayed = CMTimeGetSeconds(_audioPlayer.currentTime);
+        //2.
         if (block) {
             block(_currentAudioItem);
         }
-        
-        if (self.statusDictionary[AFSoundStatusDuration] == self.statusDictionary[AFSoundStatusTimeElapsed]) {
+        //3.
+        if (_currentAudioItem.duration == _currentAudioItem.timePlayed) {
             
             [_feedbackTimer pauseTimer];
             _status = CHAudioPlayFinished;
@@ -106,11 +102,16 @@
     } repeats:YES];
 }
 
--(NSDictionary *)statusDictionary {
-    // 删除Duration和Elapsed的强制int类型转化
-    return @{AFSoundStatusDuration: @(CMTimeGetSeconds(_player.currentItem.asset.duration)),
-             AFSoundStatusTimeElapsed: @(CMTimeGetSeconds(_player.currentItem.currentTime)),
-             AFSoundPlaybackStatus: @(_status)};
+- (void) fetchPlayerItemInfo
+{
+    _currentAudioItem.duration = CMTimeGetSeconds(_audioPlayer.currentItem.asset.duration);
+}
+
+-(NSDictionary *)statusDictionary
+{
+    return @{CHAudioPlayerItemDuration: @(_currentAudioItem.duration),
+             CHAudioPlayerItemTimeElapsed: @(_currentAudioItem.timePlayed),
+             CHAudioPlayerStatus: @(_status)};
 }
 
 @end
