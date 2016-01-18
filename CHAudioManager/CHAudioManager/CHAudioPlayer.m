@@ -40,7 +40,7 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     [_audioPlayer replaceCurrentItemWithPlayerItem:_currentAudioItem.playerItem];
 }
 
-#pragma mark - play control
+#pragma mark - Play control
 #pragma mark play
 - (void) play
 {
@@ -112,6 +112,14 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     return @{CHAudioPlayerItemDuration: @(_currentAudioItem.duration),
              CHAudioPlayerItemTimeElapsed: @(_currentAudioItem.timePlayed),
              CHAudioPlayerStatus: @(_status)};
+}
+
+- (void) removeListenFeedback
+{
+    if ([_feedbackTimer isValid]) {
+        [_feedbackTimer invalidate];
+    }
+    _feedbackTimer = nil;
 }
 
 @end

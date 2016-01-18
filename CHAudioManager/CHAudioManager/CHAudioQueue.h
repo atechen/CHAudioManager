@@ -8,5 +8,18 @@
 #import <Foundation/Foundation.h>
 
 @interface CHAudioQueue : NSObject
-- (void) setAudioInfo:(id)audioInfo audioUrlKey:(NSString *)audioUrlKey;
+- (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey;
+
+- (void) clearQueue;
+
+- (void) playStreamInfoAtIndex:(NSInteger)index;
+- (void) playStreamInfo:(id)audioInfo;
+- (void) playAtSecond:(NSInteger)second;
+
+- (void) pause;
+- (void) resume;
+
+-(void)playNextStreamInfo;
+-(void)playPreviousStreamInfo;
+
 @end

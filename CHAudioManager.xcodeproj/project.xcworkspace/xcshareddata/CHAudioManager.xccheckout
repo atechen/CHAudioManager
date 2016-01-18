@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>7BB291BB-DF0E-4A9B-BDB7-6391E5300619</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>CHAudioManager</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>05C74E5D26D6185BBDFB3782D40A165B1F76238B</key>
 		<string>https://github.com/atechen/CHAudioManager.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CHAudioManager.xcodeproj/project.xcworkspace</string>
+	<string>CHAudioManager.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>05C74E5D26D6185BBDFB3782D40A165B1F76238B</key>
