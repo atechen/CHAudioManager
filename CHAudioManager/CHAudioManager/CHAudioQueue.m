@@ -8,15 +8,15 @@
 #import "CHAudioQueue.h"
 #import <objc/runtime.h>
 #import "CHAudioItem.h"
-#import "CHAudioPlayer.h"
 #import "NSTimer+CHAudioManager.h"
 
 @interface CHAudioQueue ()
 {
     CHAudioPlayer *_audioPlayer;
-    NSArray *_audioInfoArr;
     NSTimer *_feedbackTimer;
+    
     id _currentAudioInfo;
+    NSArray *_audioInfoArr;
 }
 
 @end
@@ -33,6 +33,7 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
     return self;
 }
 
+#pragma mark - 音频源
 - (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey
 {
     if (audioInfoArr.count <= 0) return;
@@ -48,21 +49,24 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
             NSString *urlStr = [audioInfo valueForKey:audioUrlKey];
             audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
         }
-        else{
+        else {
             NSString *urlStr = [audioInfo valueForKey:audioUrlKey];
             audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
         }
         
         objc_setAssociatedObject(audioInfo, &audioItemKey, audioItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        
     }
 }
 
-- (void) clearQueue
+#pragma mark - Get
+- (CHAudioPlayStatus)status
 {
-    [_audioPlayer pause];
-    [_feedbackTimer pauseTimer];
-    _feedbackTimer = nil;
+    return _audioPlayer.status;
+}
+
+- (CHAudioItem *)currentAudioItem
+{
+    return objc_getAssociatedObject(_currentAudioInfo, &audioItemKey);
 }
 
 #pragma mark - play
@@ -77,13 +81,30 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
         if (_audioPlayer.status == CHAudioPlayNone || _audioPlayer.status == CHAudioPlayPause || _audioPlayer.status == CHAudioPlayFinished) {
             [_feedbackTimer resumeTimer];
         }
-        [_audioPlayer play];
         
-//        if ([_delegate respondsToSelector:@selector(audioPlayerManagerPrepareForPlay:)]) {
-//            [_delegate audioPlayerManagerPrepareForPlay:self];
-//        }
-//        [self prepareToPlay];
+        [_audioPlayer play];
     }
+}
+
+- (void) playStreamInfoAtIndex:(NSInteger)index
+{
+    if (index < _audioInfoArr.count && index >= 0) {
+        [self playStreamInfo:_audioInfoArr[index]];
+    }
+}
+
+- (void) playAtSecond:(NSInteger)second
+{
+    [_audioPlayer playAtSecond:second];
+}
+
+/*
+- (void) initInSubThreadAndPlay:(id)audioInfo
+{
+    if ([_delegate respondsToSelector:@selector(audioPlayerManagerPrepareForPlay:)]) {
+        [_delegate audioPlayerManagerPrepareForPlay:self];
+    }
+    [self prepareToPlay];
 }
 
 - (void) prepareToPlay
@@ -96,36 +117,21 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
 }
 - (void) play
 {
-    //    if ([_delegate respondsToSelector:@selector(audioPlayerManagerReadyWillPlay:)]) {
-    //        [_delegate audioPlayerManagerReadyWillPlay:self];
-    //    }
-    
-    if (_audioPlayer.status == CHAudioPlayNone || _audioPlayer.status == CHAudioPlayPause || _audioPlayer.status == CHAudioPlayFinished)
-    {
+    if ([_delegate respondsToSelector:@selector(audioPlayerManagerReadyWillPlay:)]) {
+        [_delegate audioPlayerManagerReadyWillPlay:self];
+    }
+    if (_audioPlayer.status == CHAudioPlayNone || _audioPlayer.status == CHAudioPlayPause || _audioPlayer.status == CHAudioPlayFinished){
         [_feedbackTimer resumeTimer];
     }
-    
     [_audioPlayer play];
     //    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
 }
+ */
 
-- (void) playStreamInfoAtIndex:(NSInteger)index
-{
-    if (index < _audioInfoArr.count && index > 0) {
-        [self playStreamInfo:_audioInfoArr[index]];
-    }
-}
-
-- (void) playAtSecond:(NSInteger)second
-{
-    [_audioPlayer playAtSecond:second];
-}
-
-#pragma mark - pause
+#pragma mark pause
 - (void) pause
 {
     [_audioPlayer pause];
-    //    [[MPRemoteCommandCenter sharedCommandCenter] pauseCommand];
     [_feedbackTimer pauseTimer];
 }
 
@@ -133,17 +139,21 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
 - (void) resume
 {
     [_audioPlayer play];
-    //    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
     [_feedbackTimer resumeTimer];
+}
+#pragma mark 清空
+- (void) clearQueue
+{
+    [_audioPlayer pause];
+    [_feedbackTimer pauseTimer];
+    _feedbackTimer = nil;
 }
 
 #pragma mark - toggle
 - (void) playNextStreamInfo
 {
     if ([_audioInfoArr containsObject:_currentAudioInfo]) {
-
         [self playStreamInfoAtIndex:([_audioInfoArr indexOfObject:_currentAudioInfo] + 1)];
-//        [[MPRemoteCommandCenter sharedCommandCenter] nextTrackCommand];
         [_feedbackTimer resumeTimer];
     }
 }
@@ -152,8 +162,18 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
 {
     if ([_audioInfoArr containsObject:_currentAudioInfo]) {
         [self playStreamInfoAtIndex:([_audioInfoArr indexOfObject:_currentAudioInfo] - 1)];
-//        [[MPRemoteCommandCenter sharedCommandCenter] previousTrackCommand];
     }
+}
+
+#pragma mark - 播放回调
+- (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock
+{
+    
+}
+
+- (void)dealloc
+{
+    NSLog(@"CHAudioQueue---dealloc");
 }
 
 @end

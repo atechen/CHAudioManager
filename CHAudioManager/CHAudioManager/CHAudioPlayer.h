@@ -11,7 +11,7 @@
 
 typedef enum {
     CHAudioPlayNone = 1,
-    CHAudioPlayInit,
+    CHAudioPlayInit,// 并未使用
     CHAudioPlayStart,
     CHAudioPlayPause,
     CHAudioPlayResume,
@@ -28,6 +28,8 @@ extern NSString *const CHAudioPlayerItemTimeElapsed;
 
 @interface CHAudioPlayer : NSObject
 
+@property (nonatomic, assign, readonly) CHAudioPlayStatus status;
+
 // 设置播放源方法
 - (void) setAudioItem:(CHAudioItem *)audioItem;
 
@@ -37,5 +39,5 @@ extern NSString *const CHAudioPlayerItemTimeElapsed;
 - (void) pause;
 - (void) resume;
 
-@property (nonatomic, assign, readonly) CHAudioPlayStatus status;
+- (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock;
 @end

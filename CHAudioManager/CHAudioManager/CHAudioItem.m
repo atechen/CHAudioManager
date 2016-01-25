@@ -16,7 +16,7 @@
 
 + (id) audioItemWithUrlStr:(NSString *)urlStr
 {
-    urlStr = [urlStr lowercaseString];
+//    urlStr = [urlStr lowercaseString];
     CHAudioItem *audioItem = nil;
     if ([urlStr hasPrefix:@"http://"] || [urlStr hasPrefix:@"https://"]) {
         audioItem = [[CHAudioItem alloc] initWithStreamUrlStr:urlStr];

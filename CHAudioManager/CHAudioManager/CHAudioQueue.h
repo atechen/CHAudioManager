@@ -6,11 +6,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CHAudioPlayer.h"
+
+@class CHAudioItem;
 
 @interface CHAudioQueue : NSObject
-- (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey;
 
-- (void) clearQueue;
+@property (nonatomic, assign) CHAudioPlayStatus status;
+@property (nonatomic, strong, readonly) CHAudioItem *currentAudioItem;
+
+- (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey;
 
 - (void) playStreamInfoAtIndex:(NSInteger)index;
 - (void) playStreamInfo:(id)audioInfo;
@@ -18,8 +23,11 @@
 
 - (void) pause;
 - (void) resume;
+- (void) clearQueue;
 
--(void)playNextStreamInfo;
--(void)playPreviousStreamInfo;
+- (void) playNextStreamInfo;
+- (void) playPreviousStreamInfo;
+
+- (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock;
 
 @end

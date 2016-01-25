@@ -8,12 +8,16 @@
 
 #import "CHAudioPlayer.h"
 #import "NSTimer+CHAudioManager.h"
+#import <UIKit/UIKit.h>
+//#import <MediaPlayer/MediaPlayer.h>
 
 @interface CHAudioPlayer ()
 {
     AVPlayer *_audioPlayer;
     NSTimer *_feedbackTimer;
     CHAudioItem *_currentAudioItem;
+    
+    UIBackgroundTaskIdentifier _playerBgTaskID;
 }
 @end
 
@@ -26,8 +30,12 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 {
     if (self = [super init]) {
         _status = CHAudioPlayNone;
-#warning 使用nil创建AVPlayer是否可以
-        _audioPlayer = [[AVPlayer alloc] initWithPlayerItem:nil];
+        _audioPlayer = [[AVPlayer alloc] init];
+        
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+        [session setActive:YES error:nil];
+        _playerBgTaskID = 0;
     }
     return self;
 }
@@ -36,7 +44,7 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 - (void) setAudioItem:(CHAudioItem *)audioItem
 {
     _currentAudioItem = audioItem;
-#warning 不确定是否耗时
+    [self playAtSecond:0];
     [_audioPlayer replaceCurrentItemWithPlayerItem:_currentAudioItem.playerItem];
 }
 
@@ -44,10 +52,21 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 #pragma mark play
 - (void) play
 {
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {// 后台播放
+        UIApplication *application = [UIApplication sharedApplication];
+        UIBackgroundTaskIdentifier newTask = [application beginBackgroundTaskWithExpirationHandler:nil];
+        if (_playerBgTaskID != UIBackgroundTaskInvalid) {
+            [application endBackgroundTask: _playerBgTaskID];
+        }
+        _playerBgTaskID = newTask;
+    }
+    
     _status = CHAudioPlayStart;
     [_audioPlayer play];
     [_feedbackTimer resumeTimer];
+    // 此时获取音频数据，耗时少
     [self fetchPlayerItemInfo];
+    
 //    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
 }
 
@@ -59,23 +78,52 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 #pragma mark pause
 - (void) pause
 {
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {// 后台播放
+        UIApplication *application = [UIApplication sharedApplication];
+        UIBackgroundTaskIdentifier newTask = [application beginBackgroundTaskWithExpirationHandler:nil];
+        if (_playerBgTaskID != UIBackgroundTaskInvalid) {
+            [application endBackgroundTask: _playerBgTaskID];
+        }
+        _playerBgTaskID = newTask;
+    }
+    
     _status = CHAudioPlayPause;
     [_audioPlayer pause];
     [_feedbackTimer pauseTimer];
-//    [[MPRemoteCommandCenter sharedCommandCenter] pauseCommand];
 }
 
 #pragma mark resume
 - (void) resume
 {
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {// 后台播放
+        UIApplication *application = [UIApplication sharedApplication];
+        UIBackgroundTaskIdentifier newTask = [application beginBackgroundTaskWithExpirationHandler:nil];
+        if (_playerBgTaskID != UIBackgroundTaskInvalid) {
+            [application endBackgroundTask: _playerBgTaskID];
+        }
+        _playerBgTaskID = newTask;
+    }
+    
     _status = CHAudioPlayResume;
     [_audioPlayer seekToTime:CMTimeMake(0, 1)];
-    // 不知都该用什么？
-//    [[MPRemoteCommandCenter sharedCommandCenter] playCommand];
+}
+
+#pragma mark finish
+- (void) finish
+{
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {// 后台播放
+        UIApplication *application = [UIApplication sharedApplication];
+        if (_playerBgTaskID != UIBackgroundTaskInvalid) {
+            [application endBackgroundTask: _playerBgTaskID];
+        }
+    }
+    
+    [_feedbackTimer pauseTimer];
+    _status = CHAudioPlayFinished;
 }
 
 #pragma mark - 回调
--(void)listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock
+- (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock
 {
     CGFloat updateRate = 1;
     
@@ -93,8 +141,7 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
         //3.
         if (_currentAudioItem.duration == _currentAudioItem.timePlayed) {
             
-            [_feedbackTimer pauseTimer];
-            _status = CHAudioPlayFinished;
+            [self finish];
             if (finishedBlock) {
                 finishedBlock();
             }
@@ -120,6 +167,33 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
         [_feedbackTimer invalidate];
     }
     _feedbackTimer = nil;
+}
+
+- (void) remoteControlReceivedWithEvent:(UIEvent *)receivedEvent
+{
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+                NSLog(@"UIEventSubtypeRemoteControlTogglePlayPause");
+                [self play];
+                break;
+            case UIEventSubtypeRemoteControlPlay:
+                NSLog(@"UIEventSubtypeRemoteControlPlay");
+                [self play];
+                break;
+            case UIEventSubtypeRemoteControlPause:
+                NSLog(@"UIEventSubtypeRemoteControlPause");
+                [self pause];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+- (void)dealloc
+{
+    NSLog(@"CHAudioPlayer---dealloc");
 }
 
 @end

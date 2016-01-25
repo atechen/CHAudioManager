@@ -7,21 +7,34 @@
 //
 
 #import "ViewController.h"
+#import "LocalAudioInfo.h"
+#import "DetailTableViewController.h"
 
 @interface ViewController ()
-
+{
+    NSArray *_localAudioInfoArr;
+}
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    NSString *bundleStr = [[NSBundle mainBundle] pathForResource:@"BundleAudio" ofType:@"bundle"];
+    NSString *audioInfoArrPath = [[NSBundle bundleWithPath:bundleStr] pathForResource:@"AudioInfoArr" ofType:@"json"];
+    NSData  *jsonData = [NSData dataWithContentsOfFile:audioInfoArrPath];
+    NSError *error = nil;
+    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+    _localAudioInfoArr = [LocalAudioInfo mj_objectArrayWithKeyValuesArray:jsonDic[@"data"]];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ViewToAudioDetailSegue"]) {
+        DetailTableViewController *detailViewController = segue.destinationViewController;
+        detailViewController.audioInfoArr = _localAudioInfoArr;
+    }
 }
 
 @end
