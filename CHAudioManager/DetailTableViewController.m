@@ -24,14 +24,14 @@
 {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-//    [self becomeFirstResponder];
+    [self becomeFirstResponder];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-//    [self resignFirstResponder];
+    [self resignFirstResponder];
 }
 
 - (void)viewDidLoad {
@@ -111,16 +111,30 @@
                 break;
             case UIEventSubtypeRemoteControlPlay:
                 NSLog(@"UIEventSubtypeRemoteControlPlay");
-//                [_playerQueue play];
+                [_playerQueue resume];
                 break;
             case UIEventSubtypeRemoteControlPause:
                 NSLog(@"UIEventSubtypeRemoteControlPause");
                 [_playerQueue pause];
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+                NSLog(@"UIEventSubtypeRemoteControlNextTrack");
+                [_playerQueue playNextStreamInfo];
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                NSLog(@"UIEventSubtypeRemoteControlPreviousTrack");
+                [_playerQueue playPreviousStreamInfo];
                 break;
             default:
                 break;
         }
     }
 }
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 
 @end

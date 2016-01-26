@@ -7,6 +7,7 @@
 //
 
 #import "CHAudioItem.h"
+#import <UIKit/UIKit.h>
 
 @interface CHAudioItem ()
 @property (nonatomic, strong, readonly) NSURL *URL;
@@ -60,7 +61,7 @@
     
     return self;
 }
-/*
+
 - (void) fetchMetadata
 {
     //1.
@@ -71,26 +72,28 @@
 
         [metadataItem loadValuesAsynchronouslyForKeys:@[AVMetadataKeySpaceCommon] completionHandler:^{
             if ([metadataItem.commonKey isEqualToString:@"title"]) {
-                _title = (NSString *)metadataItem.value;
+                _audioTitle = (NSString *)metadataItem.value;
             }
             else if ([metadataItem.commonKey isEqualToString:@"albumName"]) {
-                _album = (NSString *)metadataItem.value;
+                _albumTitle = (NSString *)metadataItem.value;
             }
             else if ([metadataItem.commonKey isEqualToString:@"artist"]) {
-                _artist = (NSString *)metadataItem.value;
+                _audioArtist = (NSString *)metadataItem.value;
             }
             else if ([metadataItem.commonKey isEqualToString:@"artwork"]) {
-                if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceID3]) {
-                    _artwork = [UIImage imageWithData:[[metadataItem.value copyWithZone:nil] objectForKey:@"data"]];
-                }
-                else if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceiTunes]) {
-                    _artwork = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
-                }
+                _frontcoverImage = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
+//                if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceID3]) {
+//                    _frontcoverImage = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
+//                }
+//                else if ([metadataItem.keySpace isEqualToString:AVMetadataKeySpaceiTunes]) {
+//                    _frontcoverImage = [UIImage imageWithData:[metadataItem.value copyWithZone:nil]];
+//                }
             }
         }];
     }
 }
 
+/*
 -(void)setInfoFromItem:(AVPlayerItem *)item
 {
     _duration = CMTimeGetSeconds(item.duration);
