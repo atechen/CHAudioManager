@@ -10,6 +10,8 @@
 		04E3B50B1C4B48E700286D31 /* CHAudioQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3B50A1C4B48E700286D31 /* CHAudioQueue.m */; };
 		04E3B50E1C4B491100286D31 /* CHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E3B50D1C4B491100286D31 /* CHAudioPlayer.m */; };
 		11D0469A8125C5BB5CBD4BDF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0A3F510107635A51A3C30A2 /* libPods.a */; };
+		E206B2A21C58A654007F47C1 /* NSObject+CHAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */; };
+		E206B2A51C58C009007F47C1 /* UIViewController+CHAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E206B2A41C58C009007F47C1 /* UIViewController+CHAudioManager.m */; };
 		E264D6401C4E040800D33573 /* AudioTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E264D63E1C4E040800D33573 /* AudioTableViewCell.m */; };
 		E264D6411C4E040800D33573 /* AudioTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E264D63F1C4E040800D33573 /* AudioTableViewCell.xib */; };
 		E264D6461C4E293000D33573 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = E264D6421C4E293000D33573 /* pause.png */; };
@@ -49,6 +51,10 @@
 		4C7F6FEF8B4C96A604D69B21 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9182B334ABE2AB59565F5AC1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D0A3F510107635A51A3C30A2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E206B2A01C58A654007F47C1 /* NSObject+CHAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CHAudioManager.h"; sourceTree = "<group>"; };
+		E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CHAudioManager.m"; sourceTree = "<group>"; };
+		E206B2A31C58C009007F47C1 /* UIViewController+CHAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CHAudioManager.h"; sourceTree = "<group>"; };
+		E206B2A41C58C009007F47C1 /* UIViewController+CHAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CHAudioManager.m"; sourceTree = "<group>"; };
 		E264D63D1C4E040800D33573 /* AudioTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioTableViewCell.h; sourceTree = "<group>"; };
 		E264D63E1C4E040800D33573 /* AudioTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioTableViewCell.m; sourceTree = "<group>"; };
 		E264D63F1C4E040800D33573 /* AudioTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioTableViewCell.xib; sourceTree = "<group>"; };
@@ -184,6 +190,10 @@
 				E2A6E10C1C4624B800FD6B93 /* CHAudioItem.m */,
 				E27488271C47354500C92DB8 /* NSTimer+CHAudioManager.h */,
 				E27488281C47354500C92DB8 /* NSTimer+CHAudioManager.m */,
+				E206B2A01C58A654007F47C1 /* NSObject+CHAudioManager.h */,
+				E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */,
+				E206B2A31C58C009007F47C1 /* UIViewController+CHAudioManager.h */,
+				E206B2A41C58C009007F47C1 /* UIViewController+CHAudioManager.m */,
 			);
 			path = CHAudioManager;
 			sourceTree = "<group>";
@@ -365,11 +375,13 @@
 			files = (
 				04E3B50B1C4B48E700286D31 /* CHAudioQueue.m in Sources */,
 				04E3B50E1C4B491100286D31 /* CHAudioPlayer.m in Sources */,
+				E206B2A21C58A654007F47C1 /* NSObject+CHAudioManager.m in Sources */,
 				E2EA55BA1C45E96900BC1596 /* ViewController.m in Sources */,
 				E27488291C47354500C92DB8 /* NSTimer+CHAudioManager.m in Sources */,
 				E2A6E10D1C4624B800FD6B93 /* CHAudioItem.m in Sources */,
 				E2EA55B71C45E96900BC1596 /* AppDelegate.m in Sources */,
 				E2AC2C7C1C4DE2B50079EF6E /* LocalAudioInfo.m in Sources */,
+				E206B2A51C58C009007F47C1 /* UIViewController+CHAudioManager.m in Sources */,
 				E2EA55B41C45E96900BC1596 /* main.m in Sources */,
 				E264D6401C4E040800D33573 /* AudioTableViewCell.m in Sources */,
 				E2AC2C6C1C4DD2700079EF6E /* DetailTableViewController.m in Sources */,

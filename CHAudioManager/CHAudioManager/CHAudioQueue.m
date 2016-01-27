@@ -58,6 +58,15 @@ static NSString *const audioItemKey = @"CHAudioItemKey";
     }
 }
 
+- (void) registerBackgroundPlay
+{
+    [_audioPlayer registerBackgroundPlay];
+}
+- (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController
+{
+    [_audioPlayer registerRemoteEventsWithController:remoteEventController];
+}
+
 #pragma mark - Get
 - (CHAudioPlayStatus)status
 {

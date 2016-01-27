@@ -16,6 +16,8 @@
 @property (nonatomic, strong, readonly) CHAudioItem *currentAudioItem;
 
 - (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey;
+- (void) registerBackgroundPlay;
+- (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController;
 
 - (void) playStreamInfoAtIndex:(NSInteger)index;
 - (void) playStreamInfo:(id)audioInfo;

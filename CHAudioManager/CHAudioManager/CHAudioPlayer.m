@@ -8,14 +8,17 @@
 
 #import "CHAudioPlayer.h"
 #import "NSTimer+CHAudioManager.h"
-#import <UIKit/UIKit.h>
+#import "UIViewController+CHAudioManager.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <objc/runtime.h>
 
 @interface CHAudioPlayer ()
 {
     AVPlayer *_audioPlayer;
     NSTimer *_feedbackTimer;
     CHAudioItem *_currentAudioItem;
+    
+    __weak UIViewController *_remoteEventController;
     
 //    UIBackgroundTaskIdentifier _playerBgTaskID;
 }
@@ -31,8 +34,6 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     if (self = [super init]) {
         _status = CHAudioPlayNone;
         _audioPlayer = [[AVPlayer alloc] init];
-        
-        
 //        _playerBgTaskID = 0;
     }
     return self;
@@ -45,14 +46,21 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     [session setCategory:AVAudioSessionCategoryPlayback error:nil];
     [session setActive:YES error:nil];
 }
-- (void) registerRemoteControlEvents
+- (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController
 {
-/*
- 1.定义个fatherController
- 2.使用运行时重写 - (void) remoteControlReceivedWithEvent:(UIEvent *)receivedEvent 方法
- */
+    _remoteEventController = remoteEventController;
+    
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [remoteEventController becomeFirstResponder];
+    
+    Method originControlMethod = class_getInstanceMethod([remoteEventController class], @selector(remoteControlReceivedWithEvent:));
+    IMP newControlImp = class_getMethodImplementation([self class], @selector(remoteControlReceivedWithEvent:));
+    method_setImplementation(originControlMethod, newControlImp);
+    
+    Method originIsResponderMethod = class_getInstanceMethod([remoteEventController class], @selector(canBecomeFirstResponder));
+    IMP newIsResponderImp = class_getMethodImplementation([self class], @selector(canBecomeFirstResponder));
+    method_setImplementation(originIsResponderMethod, newIsResponderImp);
 }
-
 
 #pragma mark - Public 设置播放源方法
 - (void) setAudioItem:(CHAudioItem *)audioItem
@@ -196,35 +204,60 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     _feedbackTimer = nil;
 }
 
-#pragma mark - 
-// 退到后台响应
-- (void) resignActiveNotificationResponse
+#pragma mark - 远程控制
+- (BOOL)canBecomeFirstResponder
 {
-    
+    return YES;
 }
-
-// 回到前台响应
-- (void) becomeActiveNotificationResponse
-{
-    
-}
-
 
 - (void) remoteControlReceivedWithEvent:(UIEvent *)receivedEvent
 {
     if (receivedEvent.type == UIEventTypeRemoteControl) {
         switch (receivedEvent.subtype) {
             case UIEventSubtypeRemoteControlTogglePlayPause:
-                NSLog(@"UIEventSubtypeRemoteControlTogglePlayPause");
-                [self play];
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToTogglePlayPause)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToTogglePlayPause) withObject:nil];
+                }
                 break;
             case UIEventSubtypeRemoteControlPlay:
-                NSLog(@"UIEventSubtypeRemoteControlPlay");
-                [self play];
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToPlay)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToPlay) withObject:nil];
+                }
                 break;
             case UIEventSubtypeRemoteControlPause:
-                NSLog(@"UIEventSubtypeRemoteControlPause");
-                [self pause];
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToPause)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToPause) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToNextTrack)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToNextTrack) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToPreviousTrack)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToPreviousTrack) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlBeginSeekingBackward:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToBeginSeekingBackward)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToBeginSeekingBackward) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlEndSeekingBackward:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToEndSeekingBackward)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToEndSeekingBackward) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlBeginSeekingForward:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToBeginSeekingForward)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToBeginSeekingForward) withObject:nil];
+                }
+                break;
+            case UIEventSubtypeRemoteControlEndSeekingForward:
+                if ([self respondsToSelector:@selector(ch_audioManagerRemoteControlToEndSeekingForward)]) {
+                    [self performSelector:@selector(ch_audioManagerRemoteControlToEndSeekingForward) withObject:nil];
+                }
                 break;
             default:
                 break;
@@ -232,8 +265,12 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     }
 }
 
+
+
 - (void)dealloc
 {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [_remoteEventController resignFirstResponder];
     NSLog(@"CHAudioPlayer---dealloc");
 }
 

@@ -6,6 +6,7 @@
 //  Modify by 陈 斐 on 16/1/12.
 //
 
+#import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "CHAudioItem.h"
 
@@ -32,6 +33,8 @@ extern NSString *const CHAudioPlayerItemTimeElapsed;
 
 // 设置播放源方法
 - (void) setAudioItem:(CHAudioItem *)audioItem;
+- (void) registerBackgroundPlay;
+- (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController;
 
 // play control
 - (void) play;

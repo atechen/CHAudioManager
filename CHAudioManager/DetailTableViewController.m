@@ -10,6 +10,7 @@
 #import "AudioTableViewCell.h"
 #import "LocalAudioInfo.h"
 #import "CHAudioQueue.h"
+#import "UIViewController+CHAudioManager.h"
 
 @interface DetailTableViewController ()
 {
@@ -20,19 +21,19 @@
 
 @implementation DetailTableViewController
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [self becomeFirstResponder];
-}
-
-- (void) viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-    [self resignFirstResponder];
-}
+//- (void) viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+//    [self becomeFirstResponder];
+//}
+//
+//- (void) viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+//    [self resignFirstResponder];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +43,8 @@
     
     _playerQueue = [[CHAudioQueue alloc] init];
     [_playerQueue setAudioInfoArr:_audioInfoArr audioUrlKey:@"audioPath"];
+    [_playerQueue registerBackgroundPlay];
+    [_playerQueue registerRemoteEventsWithController:self];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -101,40 +104,23 @@
     }
 }
 
-- (void) remoteControlReceivedWithEvent:(UIEvent *)receivedEvent
-{
-    if (receivedEvent.type == UIEventTypeRemoteControl) {
-        switch (receivedEvent.subtype) {
-            case UIEventSubtypeRemoteControlTogglePlayPause:
-                NSLog(@"UIEventSubtypeRemoteControlTogglePlayPause");
-//                [_playerQueue pl];
-                break;
-            case UIEventSubtypeRemoteControlPlay:
-                NSLog(@"UIEventSubtypeRemoteControlPlay");
-                [_playerQueue resume];
-                break;
-            case UIEventSubtypeRemoteControlPause:
-                NSLog(@"UIEventSubtypeRemoteControlPause");
-                [_playerQueue pause];
-                break;
-            case UIEventSubtypeRemoteControlNextTrack:
-                NSLog(@"UIEventSubtypeRemoteControlNextTrack");
-                [_playerQueue playNextStreamInfo];
-                break;
-            case UIEventSubtypeRemoteControlPreviousTrack:
-                NSLog(@"UIEventSubtypeRemoteControlPreviousTrack");
-                [_playerQueue playPreviousStreamInfo];
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
+#pragma mark - 远程控制
+//- (void) ch_audioManagerRemoteControlToPlay
+//{
+//    [_playerQueue resume];
+//}
+//- (void) ch_audioManagerRemoteControlToPause
+//{
+//    [_playerQueue pause];
+//}
+//- (void) ch_audioManagerRemoteControlToNextTrack
+//{
+//    [_playerQueue playNextStreamInfo];
+//}
+//- (void) ch_audioManagerRemoteControlToPreviousTrack
+//{
+//    [_playerQueue playPreviousStreamInfo];
+//}
 
 
 @end
