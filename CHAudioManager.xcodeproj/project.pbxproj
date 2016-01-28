@@ -25,6 +25,7 @@
 		E2AC2C7C1C4DE2B50079EF6E /* LocalAudioInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC2C7B1C4DE2B50079EF6E /* LocalAudioInfo.m */; };
 		E2B04A771C55C6DE00D8304E /* CHAudioManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B04A761C55C6DE00D8304E /* CHAudioManagerTests.m */; };
 		E2B04A7E1C55C9D700D8304E /* BundleAudio.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E2AC2C781C4DE1900079EF6E /* BundleAudio.bundle */; };
+		E2D52E7D1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D52E7C1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m */; };
 		E2EA55B41C45E96900BC1596 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55B31C45E96900BC1596 /* main.m */; };
 		E2EA55B71C45E96900BC1596 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55B61C45E96900BC1596 /* AppDelegate.m */; };
 		E2EA55BA1C45E96900BC1596 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2EA55B91C45E96900BC1596 /* ViewController.m */; };
@@ -74,6 +75,8 @@
 		E2B04A741C55C6DE00D8304E /* CHAudioManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CHAudioManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B04A761C55C6DE00D8304E /* CHAudioManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHAudioManagerTests.m; sourceTree = "<group>"; };
 		E2B04A781C55C6DE00D8304E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2D52E7B1C5A018C00CD0423 /* NSDictionary+CHAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CHAudioManager.h"; sourceTree = "<group>"; };
+		E2D52E7C1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CHAudioManager.m"; sourceTree = "<group>"; };
 		E2EA55AF1C45E96900BC1596 /* CHAudioManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHAudioManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2EA55B31C45E96900BC1596 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E2EA55B51C45E96900BC1596 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -194,6 +197,8 @@
 				E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */,
 				E206B2A31C58C009007F47C1 /* UIViewController+CHAudioManager.h */,
 				E206B2A41C58C009007F47C1 /* UIViewController+CHAudioManager.m */,
+				E2D52E7B1C5A018C00CD0423 /* NSDictionary+CHAudioManager.h */,
+				E2D52E7C1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m */,
 			);
 			path = CHAudioManager;
 			sourceTree = "<group>";
@@ -376,6 +381,7 @@
 				04E3B50B1C4B48E700286D31 /* CHAudioQueue.m in Sources */,
 				04E3B50E1C4B491100286D31 /* CHAudioPlayer.m in Sources */,
 				E206B2A21C58A654007F47C1 /* NSObject+CHAudioManager.m in Sources */,
+				E2D52E7D1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m in Sources */,
 				E2EA55BA1C45E96900BC1596 /* ViewController.m in Sources */,
 				E27488291C47354500C92DB8 /* NSTimer+CHAudioManager.m in Sources */,
 				E2A6E10D1C4624B800FD6B93 /* CHAudioItem.m in Sources */,

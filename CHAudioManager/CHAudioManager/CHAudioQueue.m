@@ -23,8 +23,6 @@
 
 @implementation CHAudioQueue
 
-static NSString *const audioItemKey = @"CHAudioItemKey";
-
 - (instancetype)init
 {
     if (self = [super init]) {

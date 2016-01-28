@@ -66,7 +66,11 @@
 {
     //1.
     _duration = CMTimeGetSeconds(_playerItem.asset.duration);
-    //2.
+    
+    //2.自定义数据
+    _audioTitle = 
+    
+    //3.
     NSArray *metadata = [_playerItem.asset commonMetadata];
     for (AVMetadataItem *metadataItem in metadata) {
 

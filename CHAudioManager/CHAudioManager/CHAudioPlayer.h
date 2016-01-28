@@ -32,7 +32,7 @@ extern NSString *const CHAudioPlayerItemTimeElapsed;
 @property (nonatomic, assign, readonly) CHAudioPlayStatus status;
 
 // 设置播放源方法
-- (void) setAudioItem:(CHAudioItem *)audioItem;
+- (void) setAudioInfo:(id)audioInfo;
 - (void) registerBackgroundPlay;
 - (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController;
 

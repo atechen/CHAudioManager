@@ -6,11 +6,14 @@
 //  Modify by 陈 斐 on 16/1/12.
 //
 
+#import <MediaPlayer/MediaPlayer.h>
+#import <objc/runtime.h>
+
 #import "CHAudioPlayer.h"
 #import "NSTimer+CHAudioManager.h"
 #import "UIViewController+CHAudioManager.h"
-#import <MediaPlayer/MediaPlayer.h>
-#import <objc/runtime.h>
+#import "NSObject+CHAudioManager.h"
+
 
 @interface CHAudioPlayer ()
 {
@@ -25,6 +28,9 @@
 @end
 
 @implementation CHAudioPlayer
+
+static NSString *const audioItemKey = @"CHAudioItemKey";
+
 NSString * const CHAudioPlayerStatus = @"status";
 NSString * const CHAudioPlayerItemDuration = @"duration";
 NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
@@ -63,8 +69,24 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 }
 
 #pragma mark - Public 设置播放源方法
-- (void) setAudioItem:(CHAudioItem *)audioItem
+- (void) setAudioInfo:(id)audioInfo
 {
+    CHAudioItem *audioItem = objc_getAssociatedObject(audioInfo, &audioItemKey);
+    if (!audioItem) {
+        if ([audioInfo isKindOfClass:[CHAudioItem class]]) {
+            audioItem = audioInfo;
+        }
+        else if ([audioInfo isKindOfClass:[NSString class]]) {
+            audioItem = [CHAudioItem audioItemWithUrlStr:audioInfo];
+        }
+        else {
+            NSString *urlStr = [audioInfo ch_getAudioManagerAudioAddress];
+            audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
+        }
+        
+        objc_setAssociatedObject(audioInfo, &audioItemKey, audioItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    
     _currentAudioItem = audioItem;
     [self playAtSecond:0];
     [_audioPlayer replaceCurrentItemWithPlayerItem:_currentAudioItem.playerItem];
