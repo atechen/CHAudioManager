@@ -3,7 +3,7 @@
 //  CHAudioManager
 //
 //  Created by Alvaro Franco on 10/02/15.
-//  Modify by 陈 斐 on 16/1/14.
+//  
 //
 
 #import "NSTimer+CHAudioManager.h"

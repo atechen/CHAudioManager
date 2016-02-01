@@ -193,10 +193,10 @@
 				E2A6E10C1C4624B800FD6B93 /* CHAudioItem.m */,
 				E27488271C47354500C92DB8 /* NSTimer+CHAudioManager.h */,
 				E27488281C47354500C92DB8 /* NSTimer+CHAudioManager.m */,
-				E206B2A01C58A654007F47C1 /* NSObject+CHAudioManager.h */,
-				E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */,
 				E206B2A31C58C009007F47C1 /* UIViewController+CHAudioManager.h */,
 				E206B2A41C58C009007F47C1 /* UIViewController+CHAudioManager.m */,
+				E206B2A01C58A654007F47C1 /* NSObject+CHAudioManager.h */,
+				E206B2A11C58A654007F47C1 /* NSObject+CHAudioManager.m */,
 				E2D52E7B1C5A018C00CD0423 /* NSDictionary+CHAudioManager.h */,
 				E2D52E7C1C5A018C00CD0423 /* NSDictionary+CHAudioManager.m */,
 			);

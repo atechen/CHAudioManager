@@ -14,7 +14,6 @@
 static NSString *CHAudioDicParamKey = @"CHAudioDicParamKey";
 
 NSString *const CHAudioAddressKey = @"CHAudioAddressKey";
-
 NSString *const CHAudioArtistKey = @"CHAudioArtistKey";
 NSString *const CHAudioTitleKey = @"CHAudioTitleKey";
 NSString *const CHAudioAlbumTitleKey = @"CHAudioTitleKey";
@@ -44,9 +43,10 @@ NSString *const CHAudioFrontcoverImageKey = @"CHAudioTitleKey";
     return [self valueForKey:audioInfoKeyDic[CHAudioArtistKey]];
 }
 // 音频封面
-- (NSString *) ch_getAudioManagerAudioFrontcoverImage
+- (UIImage *) ch_getAudioManagerAudioFrontcoverImage
 {
     NSDictionary *audioInfoKeyDic = objc_getAssociatedObject(self, &CHAudioDicParamKey);
+
     return [self valueForKey:audioInfoKeyDic[CHAudioFrontcoverImageKey]];
 }
 // 音频专辑名称

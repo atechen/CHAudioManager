@@ -19,7 +19,6 @@
 {
     AVPlayer *_audioPlayer;
     NSTimer *_feedbackTimer;
-    CHAudioItem *_currentAudioItem;
     
     __weak UIViewController *_remoteEventController;
     
@@ -83,7 +82,7 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
             NSString *urlStr = [audioInfo ch_getAudioManagerAudioAddress];
             audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
         }
-        
+        [audioItem fetchDataWithCustomAudioInfo:audioInfo];
         objc_setAssociatedObject(audioInfo, &audioItemKey, audioItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
@@ -174,17 +173,20 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
         updateRate = 1 / _audioPlayer.rate;
     }
     
+    [self removeListenFeedback];
+    
+    __unsafe_unretained CHAudioPlayer *blockSelf = self;
     _feedbackTimer = [NSTimer scheduledTimerWithTimeInterval:updateRate block:^{
         //1.
-        _currentAudioItem.timePlayed = CMTimeGetSeconds(_audioPlayer.currentTime);
+        blockSelf->_currentAudioItem.timePlayed = CMTimeGetSeconds(blockSelf->_audioPlayer.currentTime);
         //2.
         if (block) {
-            block(_currentAudioItem);
+            block(blockSelf->_currentAudioItem);
         }
         //3.
-        if (_currentAudioItem.duration == _currentAudioItem.timePlayed) {
+        if (blockSelf->_currentAudioItem.duration == blockSelf->_currentAudioItem.timePlayed) {
             
-            [self finish];
+            [blockSelf finish];
             if (finishedBlock) {
                 finishedBlock();
             }
@@ -198,14 +200,14 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
     if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
         
         NSMutableDictionary *playingAudioDic = [[NSMutableDictionary alloc] init];
-        [playingAudioDic setObject:_currentAudioItem.audioTitle forKey:MPMediaItemPropertyTitle];
-        [playingAudioDic setObject:_currentAudioItem.audioArtist forKey:MPMediaItemPropertyArtist];
-        [playingAudioDic setObject:_currentAudioItem.albumTitle forKey:MPMediaItemPropertyAlbumTitle];
+        [playingAudioDic setObject:_currentAudioItem.audioTitle?:@"" forKey:MPMediaItemPropertyTitle];
+        [playingAudioDic setObject:_currentAudioItem.audioArtist?:@"" forKey:MPMediaItemPropertyArtist];
+        [playingAudioDic setObject:_currentAudioItem.albumTitle?:@"" forKey:MPMediaItemPropertyAlbumTitle];
         
-//        UIImage *newImage = [UIImage imageNamed:@"pause.png"];
-        MPMediaItemArtwork *mArt = [[MPMediaItemArtwork alloc] initWithImage:_currentAudioItem.frontcoverImage];
-        [playingAudioDic setObject:mArt forKey:MPMediaItemPropertyArtwork];
-        
+        if (_currentAudioItem.frontcoverImage) {
+            MPMediaItemArtwork *mArt = [[MPMediaItemArtwork alloc] initWithImage:_currentAudioItem.frontcoverImage];
+            [playingAudioDic setObject:mArt forKey:MPMediaItemPropertyArtwork];
+        }
 //        [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
         [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:playingAudioDic];
     }
@@ -291,6 +293,9 @@ NSString * const CHAudioPlayerItemTimeElapsed = @"timeElapsed";
 
 - (void)dealloc
 {
+    if ([_feedbackTimer isValid]) {
+        [_feedbackTimer invalidate];
+    }
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [_remoteEventController resignFirstResponder];
     NSLog(@"CHAudioPlayer---dealloc");

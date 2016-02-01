@@ -42,9 +42,14 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"AudioTableViewCellID"];
     
     _playerQueue = [[CHAudioQueue alloc] init];
-    [_playerQueue setAudioInfoArr:_audioInfoArr audioUrlKey:@"audioPath"];
+    _playerQueue.audioInfoArr = _audioInfoArr;
     [_playerQueue registerBackgroundPlay];
     [_playerQueue registerRemoteEventsWithController:self];
+    [_playerQueue listenFeedbackUpdatesWithBlock:^(CHAudioItem *item) {
+        NSLog(@"----%f", item.timePlayed);
+    } andFinishedBlock:^{
+        NSLog(@"andFinishedBlock");
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -121,6 +126,12 @@
 //{
 //    [_playerQueue playPreviousStreamInfo];
 //}
+
+
+- (void)dealloc
+{
+    NSLog(@"DetailTableViewController -- dealloc");
+}
 
 
 @end

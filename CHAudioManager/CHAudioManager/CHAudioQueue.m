@@ -16,7 +16,6 @@
     NSTimer *_feedbackTimer;
     
     id _currentAudioInfo;
-    NSArray *_audioInfoArr;
 }
 
 @end
@@ -31,31 +30,7 @@
     return self;
 }
 
-#pragma mark - 音频源
-- (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey
-{
-    if (audioInfoArr.count <= 0) return;
-    
-    _audioInfoArr = audioInfoArr;
-    for (id audioInfo in audioInfoArr) {
-        CHAudioItem *audioItem;
-        
-        if ([audioInfo isKindOfClass:[CHAudioItem class]]) {
-            audioItem = audioInfo;
-        }
-        else if ([audioInfo isKindOfClass:[NSString class]]) {
-            NSString *urlStr = [audioInfo valueForKey:audioUrlKey];
-            audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
-        }
-        else {
-            NSString *urlStr = [audioInfo valueForKey:audioUrlKey];
-            audioItem = [CHAudioItem audioItemWithUrlStr:urlStr];
-        }
-        
-        objc_setAssociatedObject(audioInfo, &audioItemKey, audioItem, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-}
-
+#pragma mark - 注册后台播放/远程控制
 - (void) registerBackgroundPlay
 {
     [_audioPlayer registerBackgroundPlay];
@@ -73,7 +48,7 @@
 
 - (CHAudioItem *)currentAudioItem
 {
-    return objc_getAssociatedObject(_currentAudioInfo, &audioItemKey);
+    return _audioPlayer.currentAudioItem;
 }
 
 #pragma mark - play
@@ -83,8 +58,7 @@
         
         _currentAudioInfo = audioInfo;
         
-        CHAudioItem *playItem = objc_getAssociatedObject(_currentAudioInfo, &audioItemKey);
-        [_audioPlayer setAudioItem:playItem];
+        [_audioPlayer setAudioInfo:_currentAudioInfo];
         if (_audioPlayer.status == CHAudioPlayNone || _audioPlayer.status == CHAudioPlayPause || _audioPlayer.status == CHAudioPlayFinished) {
             [_feedbackTimer resumeTimer];
         }
@@ -175,7 +149,7 @@
 #pragma mark - 播放回调
 - (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock
 {
-    
+    [_audioPlayer listenFeedbackUpdatesWithBlock:block andFinishedBlock:finishedBlock];
 }
 
 - (void)dealloc

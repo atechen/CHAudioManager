@@ -9,5 +9,12 @@
 #import "LocalAudioInfo.h"
 
 @implementation LocalAudioInfo
-
+// 获取音频地址
+- (NSString *) ch_getAudioManagerAudioAddress
+{
+    NSString *audioBundlePath = [[NSBundle mainBundle] pathForResource:@"BundleAudio" ofType:@"bundle"];
+    NSString *audioPath = [NSString stringWithFormat:@"%@/%@", audioBundlePath, _audioPath];
+    return audioPath;
+//    return _audioPath;
+}
 @end

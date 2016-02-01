@@ -14,9 +14,11 @@
 
 @property (nonatomic, assign) CHAudioPlayStatus status;
 @property (nonatomic, strong, readonly) CHAudioItem *currentAudioItem;
+@property (nonatomic, strong) NSArray *audioInfoArr;
 
-- (void) setAudioInfoArr:(NSArray *)audioInfoArr audioUrlKey:(NSString *)audioUrlKey;
+// 注册后台播放
 - (void) registerBackgroundPlay;
+//远程控制
 - (void) registerRemoteEventsWithController:(UIViewController *)remoteEventController;
 
 - (void) playStreamInfoAtIndex:(NSInteger)index;
@@ -27,9 +29,11 @@
 - (void) resume;
 - (void) clearQueue;
 
+// toggle
 - (void) playNextStreamInfo;
 - (void) playPreviousStreamInfo;
 
+// 播放进度
 - (void) listenFeedbackUpdatesWithBlock:(feedbackBlock)block andFinishedBlock:(finishedBlock)finishedBlock;
 
 @end

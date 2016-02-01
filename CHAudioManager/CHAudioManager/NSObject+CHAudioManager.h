@@ -13,7 +13,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 @protocol CHAudioManagerAudioInfoParse <NSObject>
 
@@ -26,7 +26,7 @@
 // 音频演唱者
 - (NSString *) ch_getAudioManagerAudioArtist;
 // 音频封面
-- (NSString *) ch_getAudioManagerAudioFrontcoverImage;
+- (UIImage *) ch_getAudioManagerAudioFrontcoverImage;
 // 音频专辑名称
 - (NSString *) ch_getAudioManagerAudioAlbumTitle;
 

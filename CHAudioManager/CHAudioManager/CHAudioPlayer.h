@@ -30,6 +30,7 @@ extern NSString *const CHAudioPlayerItemTimeElapsed;
 @interface CHAudioPlayer : NSObject
 
 @property (nonatomic, assign, readonly) CHAudioPlayStatus status;
+@property (nonatomic, assign, readonly) CHAudioItem *currentAudioItem;
 
 // 设置播放源方法
 - (void) setAudioInfo:(id)audioInfo;

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MJExtension/MJExtension.h>
+
+#import "NSObject+CHAudioManager.h"
+
 @interface LocalAudioInfo : NSObject
 @property (nonatomic, copy) NSString *audioPath;
 @property (nonatomic, copy) NSString *audioName;
