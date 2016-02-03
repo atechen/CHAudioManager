@@ -18,9 +18,10 @@ typedef NS_ENUM(NSInteger, CHAudioItemType) {
 
 + (id) audioItemWithUrlStr:(NSString *)urlStr;
 - (id) initWithStreamUrlStr:(NSString *)urlStr;
-- (id) initWithLocalResource:(NSString *)name atPath:(NSString *)path;
-
+- (id) initWithLocalResource:(NSString *)pathStr;
+// 从自定义对象中获取音频信息
 - (void) fetchDataWithCustomAudioInfo:(id)audioInfo;
+// 从音频文件中获取信息
 - (void) fetchMetadata;
 
 @property (nonatomic, strong) AVPlayerItem *playerItem;

@@ -21,20 +21,6 @@
 
 @implementation DetailTableViewController
 
-//- (void) viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-//    [self becomeFirstResponder];
-//}
-//
-//- (void) viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-//    [self resignFirstResponder];
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -110,27 +96,21 @@
 }
 
 #pragma mark - 远程控制
-//- (void) ch_audioManagerRemoteControlToPlay
-//{
-//    [_playerQueue resume];
-//}
-//- (void) ch_audioManagerRemoteControlToPause
-//{
-//    [_playerQueue pause];
-//}
-//- (void) ch_audioManagerRemoteControlToNextTrack
-//{
-//    [_playerQueue playNextStreamInfo];
-//}
-//- (void) ch_audioManagerRemoteControlToPreviousTrack
-//{
-//    [_playerQueue playPreviousStreamInfo];
-//}
-
-
-- (void)dealloc
+- (void) ch_audioManagerRemoteControlToPlay
 {
-    NSLog(@"DetailTableViewController -- dealloc");
+    [_playerQueue resume];
+}
+- (void) ch_audioManagerRemoteControlToPause
+{
+    [_playerQueue pause];
+}
+- (void) ch_audioManagerRemoteControlToNextTrack
+{
+    [_playerQueue playNextStreamInfo];
+}
+- (void) ch_audioManagerRemoteControlToPreviousTrack
+{
+    [_playerQueue playPreviousStreamInfo];
 }
 
 

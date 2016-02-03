@@ -26,7 +26,6 @@
     NSError *error = nil;
     NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     _localAudioInfoArr = [LocalAudioInfo mj_objectArrayWithKeyValuesArray:jsonDic[@"data"]];
-    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

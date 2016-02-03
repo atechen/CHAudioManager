@@ -15,6 +15,5 @@
     NSString *audioBundlePath = [[NSBundle mainBundle] pathForResource:@"BundleAudio" ofType:@"bundle"];
     NSString *audioPath = [NSString stringWithFormat:@"%@/%@", audioBundlePath, _audioPath];
     return audioPath;
-//    return _audioPath;
 }
 @end

@@ -3,6 +3,7 @@
 //  CHAudioManager
 //
 //  Created by Alvaro Franco on 10/02/15.
+//  Modify by 陈 斐 on 16/1/12.
 //  
 //
 
@@ -14,14 +15,8 @@
 +(id)scheduledTimerWithTimeInterval:(NSTimeInterval)inTimeInterval block:(void (^)())inBlock repeats:(BOOL)inRepeats
 {
     void (^block)() = [inBlock copy];
-    id ret = [self scheduledTimerWithTimeInterval:inTimeInterval target:self selector:@selector(jdExecuteSimpleBlock:) userInfo:block repeats:inRepeats];
-    return ret;
-}
-
-+(id)timerWithTimeInterval:(NSTimeInterval)inTimeInterval block:(void (^)())inBlock repeats:(BOOL)inRepeats
-{
-    void (^block)() = [inBlock copy];
-    id ret = [self timerWithTimeInterval:inTimeInterval target:self selector:@selector(jdExecuteSimpleBlock:) userInfo:block repeats:inRepeats];
+    NSTimer *ret = [self scheduledTimerWithTimeInterval:inTimeInterval target:self selector:@selector(jdExecuteSimpleBlock:) userInfo:block repeats:inRepeats];
+    ret.fireDate = [NSDate distantFuture];
     return ret;
 }
 
@@ -33,23 +28,22 @@
     }
 }
 
-static NSString *const NSTimerPauseDate = @"NSTimerPauseDate";
-static NSString *const NSTimerPreviousFireDate = @"NSTimerPreviousFireDate";
+static NSString *const NSTimerPauseDate = @"CHAudioManagerTimerPauseDate";
 
--(void)pauseTimer
+- (void) pauseTimer
 {
     objc_setAssociatedObject(self, (__bridge const void *)(NSTimerPauseDate), [NSDate date], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(self, (__bridge const void *)(NSTimerPreviousFireDate), self.fireDate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
     self.fireDate = [NSDate distantFuture];
 }
 
--(void)resumeTimer
+- (void) resumeTimer
 {
+    // 暂停时的本地时间
     NSDate *pauseDate = objc_getAssociatedObject(self, (__bridge const void *)NSTimerPauseDate);
-    NSDate *previousFireDate = objc_getAssociatedObject(self, (__bridge const void *)NSTimerPreviousFireDate);
-    
+    // 暂停时长
     const NSTimeInterval pauseTime = -[pauseDate timeIntervalSinceNow];
-    self.fireDate = [NSDate dateWithTimeInterval:pauseTime sinceDate:previousFireDate];
+    
+    self.fireDate = [NSDate dateWithTimeInterval:pauseTime sinceDate:pauseDate];
 }
+
 @end

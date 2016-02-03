@@ -24,31 +24,25 @@
         audioItem = [[CHAudioItem alloc] initWithStreamUrlStr:urlStr];
     }
     else{
-        audioItem = [[CHAudioItem alloc] initWithLocalResource:urlStr atPath:nil];
+        audioItem = [[CHAudioItem alloc] initWithLocalResource:urlStr];
     }
     
     return audioItem;
 }
 
-- (id) initWithLocalResource:(NSString *)name atPath:(NSString *)path
+- (id) initWithLocalResource:(NSString *)pathStr
 {
-    
     if (self = [super init]) {
         
         _audioItemType = CHAudioItemTypeLocal;
         
-        NSString *itemPath;
-        if (!path) {
-            itemPath = name;
-        }
-        else {
-            itemPath = [path stringByAppendingPathComponent:name];
-        }
-        
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:itemPath]) {
-            _URL = [NSURL fileURLWithPath:itemPath];
+        if ([fileManager fileExistsAtPath:pathStr]) {
+            _URL = [NSURL fileURLWithPath:pathStr];
             _playerItem = [[AVPlayerItem alloc] initWithURL:_URL];
+        }
+        else{
+            return nil;
         }
     }
     
@@ -116,4 +110,5 @@
         }];
     }
 }
+
 @end
