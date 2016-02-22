@@ -1,6 +1,6 @@
 # CHAudioManager
 
-基于AVFoundation.framework封装的音频播放库，对[AFSoundManager]问题修改和重新设计封装的。
+基于AVFoundation.framework封装的音频播放库，可以播放本地音频、点播音频、苹果原生支持的直播音频。
 
 ##1.基于[AFSoundManager](https://github.com/AlvaroFranco/AFSoundManager)播放代码
 在[AFSoundManager](https://github.com/AlvaroFranco/AFSoundManager)播放代码的基础上，修复了原有的代码缺陷，重新设计，增加新的功能
