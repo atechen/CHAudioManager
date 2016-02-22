@@ -9,10 +9,11 @@
 #import "ViewController.h"
 #import "LocalAudioInfo.h"
 #import "DetailTableViewController.h"
+#import "NSDictionary+CHAudioManager.h"
 
 @interface ViewController ()
 {
-    NSArray *_localAudioInfoArr;
+    NSArray *_localAudioDicArr;
 }
 @end
 
@@ -25,15 +26,24 @@
     NSData  *jsonData = [NSData dataWithContentsOfFile:audioInfoArrPath];
     NSError *error = nil;
     NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    _localAudioInfoArr = [LocalAudioInfo mj_objectArrayWithKeyValuesArray:jsonDic[@"data"]];
+    _localAudioDicArr = jsonDic[@"data"];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"ViewToAudioDetailSegue"]) {
-        DetailTableViewController *detailViewController = segue.destinationViewController;
-        detailViewController.audioInfoArr = _localAudioInfoArr;
-    }
+- (IBAction)gotoInfoDataClick:(id)sender {
+    DetailTableViewController *detailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AudioListController"];
+    detailViewController.audioInfoArr = [LocalAudioInfo mj_objectArrayWithKeyValuesArray:_localAudioDicArr];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
+- (IBAction)gotoDicDataClick:(id)sender {
+    DetailTableViewController *detailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AudioListController"];
+    for (NSDictionary *audioDic in _localAudioDicArr) {
+        [audioDic registAudioInfoKeyWithDic:@{
+                                              CHAudioAddressKey:@"audioPath"
+                                              }];
+    }
+    detailViewController.audioDicArr = _localAudioDicArr;
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 
 @end

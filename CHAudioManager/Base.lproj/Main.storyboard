@@ -35,20 +35,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RyH-PH-LHE">
-                                <rect key="frame" x="282" y="283" width="36" height="34"/>
+                                <rect key="frame" x="248" y="263" width="105" height="34"/>
                                 <animations/>
-                                <state key="normal" title="播放">
+                                <state key="normal" title="播放InfoData">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="rtV-v7-C5o" kind="push" identifier="ViewToAudioDetailSegue" id="pIW-YZ-1tx"/>
+                                    <action selector="gotoInfoDataClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lHl-Y9-rT7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a97-sj-IDe">
+                                <rect key="frame" x="250" y="303" width="101" height="34"/>
+                                <animations/>
+                                <state key="normal" title="播放DicData">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="gotoDicDataClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yXe-Kd-3HU"/>
                                 </connections>
                             </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="RyH-PH-LHE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="YUK-6q-O20"/>
+                            <constraint firstItem="a97-sj-IDe" firstAttribute="centerX" secondItem="RyH-PH-LHE" secondAttribute="centerX" id="TRc-lC-pB1"/>
+                            <constraint firstItem="RyH-PH-LHE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-20" id="YUK-6q-O20"/>
+                            <constraint firstItem="a97-sj-IDe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="20" id="j89-9z-ono"/>
                             <constraint firstItem="RyH-PH-LHE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yxN-mV-UoC"/>
                         </constraints>
                     </view>
@@ -61,7 +73,7 @@
         <!--Detail Table View Controller-->
         <scene sceneID="yIV-Ky-6sb">
             <objects>
-                <tableViewController id="rtV-v7-C5o" customClass="DetailTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AudioListController" id="rtV-v7-C5o" customClass="DetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="M1F-6u-lbn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

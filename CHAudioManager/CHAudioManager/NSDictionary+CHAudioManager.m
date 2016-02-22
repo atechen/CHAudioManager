@@ -19,16 +19,24 @@ NSString *const CHAudioTitleKey = @"CHAudioTitleKey";
 NSString *const CHAudioAlbumTitleKey = @"CHAudioTitleKey";
 NSString *const CHAudioFrontcoverImageKey = @"CHAudioTitleKey";
 
+#pragma mark 设置Dic中音频信息对应的key
 - (void) registAudioInfoKeyWithDic:(NSDictionary *)audioInfoKeyDic
 {
     objc_setAssociatedObject(self, &CHAudioDicParamKey, audioInfoKeyDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+#pragma mark - delegate
 // 获取音频地址
 - (NSString *) ch_getAudioManagerAudioAddress
 {
     NSDictionary *audioInfoKeyDic = objc_getAssociatedObject(self, &CHAudioDicParamKey);
-    return [self valueForKey:audioInfoKeyDic[CHAudioAddressKey]];
+    NSString *urlStr = [self valueForKey:audioInfoKeyDic[CHAudioAddressKey]];
+    if ([urlStr hasPrefix:@"http://"] || [urlStr hasPrefix:@"https://"]) {
+        return urlStr;
+    }
+    else{
+        return [[NSBundle mainBundle].bundlePath stringByAppendingPathComponent:urlStr];
+    }
 }
 // 音频名称
 - (NSString *) ch_getAudioManagerAudioTitle

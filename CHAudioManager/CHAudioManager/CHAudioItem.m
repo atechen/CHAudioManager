@@ -17,6 +17,7 @@
 
 @implementation CHAudioItem
 
+#pragma mark - 初始化创建
 + (id) audioItemWithUrlStr:(NSString *)urlStr
 {
     CHAudioItem *audioItem = nil;
@@ -60,6 +61,7 @@
     return self;
 }
 
+#pragma Mark - 获取自定义的音频信息
 - (void) fetchDataWithCustomAudioInfo:(id)audioInfo
 {
     if ([audioInfo respondsToSelector:@selector(ch_getAudioManagerAudioTitle)]) {
@@ -79,6 +81,7 @@
     }
 }
 
+#pragma mark - 获取音频文件自带的信息
 - (void) fetchMetadata
 {
     //1.

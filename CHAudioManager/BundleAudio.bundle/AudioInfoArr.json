@@ -2,19 +2,19 @@
 	"data":[
 		{
 			"audioName":"思念一个荒废的名字",
-			"audioPath":"1.mp3"
+			"audioPath":"BundleAudio.bundle/1.mp3"
 		},
 		{
 			"audioName":"我也可以是流浪诗人",
-			"audioPath":"2.mp3"
+			"audioPath":"BundleAudio.bundle/2.mp3"
 		},
 		{
 			"audioName":"你还要我怎样",
-			"audioPath":"3.mp3"
+			"audioPath":"BundleAudio.bundle/3.mp3"
 		},
 		{
 			"audioName":"无法逃脱",
-			"audioPath":"4.mp3"
+			"audioPath":"BundleAudio.bundle/4.mp3"
 		}
 	]
 }

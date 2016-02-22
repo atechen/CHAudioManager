@@ -28,7 +28,12 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"AudioTableViewCellID"];
     
     _playerQueue = [[CHAudioQueue alloc] init];
-    _playerQueue.audioInfoArr = _audioInfoArr;
+    if (_audioInfoArr) {
+        _playerQueue.audioInfoArr = _audioInfoArr;
+    }
+    else if(_audioDicArr){
+        _playerQueue.audioInfoArr = _audioDicArr;
+    }
     [_playerQueue registerBackgroundPlay];
     [_playerQueue registerRemoteEventsWithController:self];
     [_playerQueue listenFeedbackUpdatesWithBlock:^(CHAudioItem *item) {
@@ -40,14 +45,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _audioInfoArr.count;
+    return _audioInfoArr?_audioInfoArr.count:_audioDicArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AudioTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AudioTableViewCellID"];
-    LocalAudioInfo *localAudioInfo = _audioInfoArr[indexPath.row];
-    cell.contentLabel.text = localAudioInfo.audioName;
+    if (_audioInfoArr) {
+        LocalAudioInfo *localAudioInfo = _audioInfoArr[indexPath.row];
+        cell.contentLabel.text = localAudioInfo.audioName;
+    }
+    else{
+        cell.contentLabel.text = _audioDicArr[indexPath.row][@"audioName"];
+    }
     
     if (indexPath == _selectedIndexPath) {
         BOOL isPlayed = YES;
